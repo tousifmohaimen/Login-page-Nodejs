@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-8">
+      <div class="row border rounded p-3 bg-white shadow box-area">
+        <!-- Left box -->
+        <div class="col-md-6 left-box">
+          <div class="row align-items-center">
+                <div class="header-text mb-2">
+                    <h2>Sign Up</h2>
+                    <p>Create an account to get started</p>
+                </div>
+                <form id="signupForm" action="/signup" method="post">
+                  <p class="mytext">First Name</p>  
+                  <div class="input-group mb-1">
+                    <input type="text" id="firstName" class="form-control form-control-lg bg-light fs-6" placeholder="First Name">
+                  </div>
+                  <p class="mytext">Last Name</p>
+                  <div class="input-group mb-1">
+                    <input type="text" id="lastName" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name">
+                  </div>
+                  <p class="mytext">Email</p>
+                  <div class="input-group mb-1">
+                    <input type="text" id="email" class="form-control form-control-lg bg-light fs-6" placeholder="Example@gmail.com">
+                  </div>
+                  <p class="mytext">Password</p>
+                  <div class="input-group mb-1">
+                    <input type="password" id="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password">
+                  </div>
+                  <p class="mytext">Verify Password</p>
+                  <div class="input-group mb-3">
+                    <input type="password" id="verifyPassword" class="form-control form-control-lg bg-light fs-6" placeholder="Verify Password">
+                  </div>
+                  <div class="input-group">
+                    <button type="submit" class="btn btn-lg btn-primary w-100 fs-6 mb-3">Sign Up</button>
+                  </div>
+                </form>
+                <div class="row">
+                    <small style="text-align: center;">Already have an account?<a href="/" class="no_underline"> Sign in</a></small>
+                </div>
+          </div>
+        </div>
+        <!-- Right box -->
+        <div class="col-md-6 rounded d-flex justify-content-center align-items-center flex-column right-box">
+          <div class="featured_image mb-3">
+           <img src="images/login.jpg" class="image-fluid" style="width: 400px; height: 600px; border-radius: 10px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('signupForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent default form submission
+          const firstName = document.getElementById('firstName').value; // Get first name input value
+          const lastName = document.getElementById('lastName').value; // Get last name input value
+          const email = document.getElementById('email').value; // Get email input value
+          const password = document.getElementById('password').value; // Get password input value
+          const verifyPassword = document.getElementById('verifyPassword').value; // Get verify password input value
+  
+          // Check if passwords match
+          if (password !== verifyPassword) {
+              alert("Passwords do not match!");
+              return;
+          }
+  
+          // Send data to the server
+          fetch('/signup', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ firstName, lastName, email, password })
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle response from the server
+              alert(data.message); // Show the message in an alert dialog
+              // You can update the UI based on the response
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              // Handle errors
+          });
+      });
+    </script>
+</body>
+</html>
