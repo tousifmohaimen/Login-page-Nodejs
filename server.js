@@ -40,12 +40,12 @@ app.post('/signin', (req, res) => {
   db.select('*').from('users').where('email', '=', email).andWhere('password', '=', password)
     .then(user => {
       if (user.length) {
-        res.json('Sign-in successful'); // Send a success message
+        res.status(200).json({ message: 'Sign-in successful' }); // Send a success message
       } else {
-        res.status(400).json('Invalid email or password'); // Send an error message
+        res.status(400).json({ message: 'Invalid email or password' }); // Send an error message
       }
     })
-    .catch(err => res.status(500).json('Error signing in')); // Handle any errors
+    .catch(err => res.status(500).json({ message: 'Error signing in' })); // Handle any errors
 });
 
 // Start the server

@@ -6,66 +6,82 @@
   <title>Login</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-  
-
-
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-8">
-      <div class="row border rounder-5 p-3 bg-white shadow box-area">
+      <div class="row border rounded p-3 bg-white shadow box-area">
         <!-- Left box -->
         <div class="col-md-6 left-box">
           <div class="row align-items-center">
                 <div class="header-text mb-2">
                     <h2>Welcome Back</h2>
-                    <p>Today is a new day.It's your day you shape it.<br> Sign in to start managing your projects</p>
-                   
+                    <p>Today is a new day. It's your day you shape it.<br> Sign in to start managing your projects</p>
                 </div>
                 <p class="mytext">Email</p>
-                <form action="/signin" method="post">
+                <form id="loginForm" action="/signin" method="post">
                   <div class="input-group mb-1">
-                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Example@gmail.com">
+                    <input type="text" id="email" class="form-control form-control-lg bg-light fs-6" placeholder="Example@gmail.com">
                   </div>
                   <p class="mytext">Password</p>
                   <div class="input-group mb-1">
-                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="password">
+                    <input type="password" id="password" class="form-control form-control-lg bg-light fs-6" placeholder="password">
                   </div>
                   <div class="input-group mb-3" style="display: flex; justify-content: flex-end;">
                     <div class="forgot" style="text-align: right">
                       <small><a href="#" class="no_underline">Forgot Password?</a></small>
                     </div>
                   </div>
-                  
+                  <div class="input-group">
+                    <button type="submit" class="btn btn-lg btn-primary w-100 fs-6 mb-3">Sign in</button>
+                  </div>
                 </form>
-
-                <div class="input-group">
-                    <button class="btn btn-lg btn-primary w-100 fs-6 mb-3">Sign in</button>
-                </div>
-
                 <div class="line mb-3">or</div>
-
-                
                 <div class="input-group">
                   <button class="btn btn-lg btn-light w-100 fs-6 mb-2"><img src="images/google.png" style="width: 20px;margin-right: 10px;"><small>Sign in with Google</small></button>
                 </div>
-
                 <div class="input-group">
                   <button class="btn btn-lg btn-light w-100 fs-6 mb-3"><img src="images/facebook.png" style="width: 33px; margin-right: 1px;"><small>Sign in with Facebook</small></button>
                 </div>
-
                 <div class="row">
                     <small style="text-align: center;">Don't have an account?<a href="#" class="no_underline"> Sign up</a></small>
                 </div>
-              
           </div>
         </div>
         <!-- Right box -->
-        <div class="col-md-6 rounder-4 d-flex justify-content-center align-items-center flex-column right-box">
+        <div class="col-md-6 rounded d-flex justify-content-center align-items-center flex-column right-box">
           <div class="featured_image mb-3">
            <img src="images/login.jpg" class="image-fluid" style="width: 400px; height: 600px; border-radius: 10px;">
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent default form submission
+          const email = document.getElementById('email').value; // Get email input value
+          const password = document.getElementById('password').value; // Get password input value
+  
+          // Send data to the server
+          fetch('/signin', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Handle response from the server
+              alert(data.message); // Show the message in an alert dialog
+              // You can update the UI based on the response
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              // Handle errors
+          });
+      });
+    </script>
+  
 </body>
 </html>
